@@ -1,6 +1,6 @@
 import sys
-from list import CommandList, ErrorCode
-from part import Logic
+from .constants import CommandList, ErrorCode
+from .parser import Logic
 
 class ShellApp:
     def __init__(self):
@@ -10,6 +10,36 @@ class ShellApp:
     def _echo(self, text):
         sys.stdout.write(text + "\n")
 
+    def _evaluate_condition(self, condition_tokens):
+        """
+        Evaluates a list of condition tokens.
+        Example: ['$usage', '>', '80'] -> True/False
+        """
+        if not condition_tokens:
+            return False
+
+        eval_string = ""
+        for token_type, value in condition_tokens:
+            if token_type == 'VARIABLE':
+                var_name = value[1:]
+                var_value = self.var_dic.get(var_name)
+                if var_value is None:
+                    ErrorCode.UNDECLARED_VARIABLE.ErrorCodePrint()
+                    return False
+                if isinstance(var_value, str):
+                    eval_string += f'"{var_value}" '
+                else:
+                    eval_string += f'{var_value} '
+            else:
+                op_map = {'-and': 'and', '-or': 'or', '-not': 'not'}
+                eval_string += f'{op_map.get(value, value)} '
+        
+        try:
+            return eval(eval_string)
+        except Exception as e:
+            sys.stderr.write(f"Error evaluating condition: {e}\n")
+            return False
+
     def _execute_command(self, command: str):
         command = command.strip()
 
@@ -18,6 +48,18 @@ class ShellApp:
 
         tokens = Logic.tokenize(command)
         cmd = Logic.parse(tokens)
+
+        if not cmd:
+            return
+        
+        if cmd.get('type') == 'conditional':
+            if self._evaluate_condition(cmd.get('condition')):
+                if cmd.get('if_block'):
+                    self._execute_command(cmd['if_block'])
+            else:
+                if cmd.get('else_block'):
+                    self._execute_command(cmd['else_block'])
+            return
 
         if cmd['noun'] == CommandList.Index('noun', 'tmp'):
             if not cmd['verb'] :
@@ -58,7 +100,11 @@ class ShellApp:
                     value = None
 
                     if cmd['prep'] == '-in' and len(cmd['args']) >= 2:
-                        value = cmd['args'][1]
+                        raw_value = cmd['args'][1]
+                        try:
+                            value = int(raw_value)
+                        except ValueError:
+                            value = raw_value
                     self.var_dic[var_name] = value
                 else:
                     ErrorCode.PARAMETER_MISSING.ErrorCodePrint()
