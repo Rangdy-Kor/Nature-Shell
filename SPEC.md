@@ -210,8 +210,130 @@ Explicit priority can be specified using parentheses ()
 
 Example: ($cpu > 80 -and $mem > 80) -or $emergency_mode
 
-# Example
+## Example
 
+## Variable Creation
 
+```
 
-DeepL로 번역함 (https://dee.pl/apps)
+var:int crt $age -in 25
+var:str crt $name -in “John”
+var:list crt $items -in [1, 2, 3]
+```
+
+## File Operations
+
+```
+dir ch C:/path
+file crt test.txt -in “Hello, World!”
+file:txt ls -rcs C:/home/user
+root fd rm -frc c:/path
+```
+
+## Conditional Execution
+
+```
+sys:mem get | var:int crt $usage -in $_
+$usage > 80 -if {
+    echo “Out of memory”
+} -else {
+    echo “Normal”
+}
+```
+
+## Loops
+
+```
+file:txt ls | -foreach {
+    echo “File: $_ ”
+}
+
+var:int crt $i -in 0
+$i < 10 -while {
+    echo $i
+    var ch $i -in $i + 1
+}
+```
+
+## Pipeline Chaining
+
+```
+file:log ls |
+    file:size sort -desc |
+    var:list crt $top5 -in $_ |
+    echo $_
+```
+
+## System Manipulation
+
+```
+root sys stop -qst -dly 5s
+```
+
+## Practical Examples
+
+### Backup Script
+
+```
+sys:date get -format “%Y%m%d” | var:str crt $today -in $_
+file:log ls -rcs /var/logs |
+    -foreach {
+        file copy $_ -to /backup/$today/$_
+     }
+```
+
+### System Monitoring
+
+```
+sys:cpu get | var:int crt $cpu -in $_
+sys:mem get | var:int crt $mem -in $_
+
+$cpu > 80 -and $mem > 80 -if {
+     echo “System Overloaded!”
+	 sys:serv rest high-usage-app
+} -else {
+    echo “System normal”
+}
+```
+
+### Delete Temporary Files Older Than 30 Days
+
+```
+file:tmp ls /temp |
+    file:age > 30d -if {
+        file rm -frc $_
+    }
+```
+
+### Batch image conversion
+
+```
+file:jpg ls /photos |
+    -foreach {
+        file conv $_ -to png -qual 90
+        echo “Conversion complete: $_ ”
+    }
+```
+
+### Function definition and usage
+
+```
+fn def create-backup-dir ($format) {
+    sys:date get -format $format | var:str crt $date-path -in $_
+    dir crt /backup/$date-path -cat {
+        tmp echo “Error: Could not create backup directory.”
+        ret false
+    }
+    ret /backup/$date-path
+}
+
+create-backup-dir “%Y%m%d” | var:str crt $today-dir -in $_
+
+$today-dir != false -if {
+    echo “Backup directory created successfully: $today-dir”
+} -else {
+    echo “Script terminated: Backup failed. ”
+}
+```
+
+Translated with DeepL.com (free version)
