@@ -1,35 +1,43 @@
+# 모듈 불러오기
 import sys
 from .constants import CommandList, ErrorCode
 from .parser import Logic
 
 class ShellApp:
+    # 변수 초기화
     def __init__(self):
         self.is_running = True
         self.var_dic = {}
 
-    def _echo(self, text):
-        sys.stdout.write(text + "\n")
-
+    # 조건식을 평가하여 True/False를 반환하는 함수
     def _evaluate_condition(self, condition_tokens):
-        """
-        Evaluates a list of condition tokens.
-        Example: ['$usage', '>', '80'] -> True/False
-        """
+        # 조건에 아무것도 없다면 False를 반환
         if not condition_tokens:
             return False
 
+		# Python이 이해 가능한 조건식 문자열 만들기
         eval_string = ""
+        
+		# 토큰을 하나하나 읽어가며 문자열을 완성
         for token_type, value in condition_tokens:
+            
+			# 변수인 경우 실제 값으로 변환
             if token_type == 'VARIABLE':
                 var_name = value[1:]
                 var_value = self.var_dic.get(var_name)
+                
+				# 변수가 없을 시 에러
                 if var_value is None:
                     ErrorCode.UNDECLARED_VARIABLE.ErrorCodePrint()
                     return False
+                
+				# 문자열이면 따옴표 추가, 숫자면 그대로
                 if isinstance(var_value, str):
                     eval_string += f'"{var_value}" '
                 else:
                     eval_string += f'{var_value} '
+                    
+			# 변수가 아닌 경우, Shell 연산자를 Python의 그것으로 변환
             else:
                 op_map = {'-and': 'and', '-or': 'or', '-not': 'not'}
                 eval_string += f'{op_map.get(value, value)} '

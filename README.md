@@ -141,6 +141,15 @@ I'm a young developer learning as I go, and **your help would be amazing!**
 - GitHub Issues: [Report bugs or ask questions](../../issues)
 - Email: hwangseonug12@gmail.com
 
+## 🤖 Development Notes
+
+This project was developed with AI assistance (Claude/ChatGPT).
+- **Concept & Design**: Created by me
+- **Implementation**: Built with AI pair programming
+- **Learning Journey**: Continuously understanding and improving the code
+
+I'm a 13-year-old developer learning through building!
+
 ---
 
 **Made with ❤️ by a 13-year-old developer**
