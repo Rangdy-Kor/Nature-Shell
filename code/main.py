@@ -1,7 +1,7 @@
 import sys
 sys.stdout.write("Importing modules...\n")
 
-import code.shell.app as cmd
+import shell.app as cmd
 import time as tm
 sys.stdout.write("Imported modules.\n")
 
