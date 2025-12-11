@@ -111,4 +111,6 @@ This is my first major project. I'm learning as I go, and I'd love your feedback
 
 ## 📄 License
 
+MIT License. 
+
 ## 💬 Contact
