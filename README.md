@@ -105,12 +105,42 @@ This is my first major project. I'm learning as I go, and I'd love your feedback
 
 ## 📚 Documentation
 
+For detailed documentation, see [SPEC.md](SPEC.md)
+
+### Command Syntax
+```
+(Permission) (Noun)(:Adjective) (Verb) (-Adverb) (Value) (-Preposition) (Value)
+```
+
+### Examples
+- [Basic Tutorial](examples/tutorial.md)
+- [Advanced Usage](examples/advanced.md)
+
 ## 🎬 Demo
+
+![Demo](https://via.placeholder.com/800x400?text=Demo+Coming+Soon)
+
+*Terminal demo coming soon!*
 
 ## 🤝 Contributing
 
-## 📄 License
+I'm a young developer learning as I go, and **your help would be amazing!**
 
-MIT License. 
+### Ways to contribute:
+
+- 🐛 Report bugs in [Issues](../../issues)
+- 💡 Suggest features
+- 📝 Improve documentation
+- 🔧 Submit pull requests
+- ⭐ Star this repo (it really helps!)
+
+**No contribution is too small!** Even fixing a typo helps.
 
 ## 💬 Contact
+
+- GitHub Issues: [Report bugs or ask questions](../../issues)
+- Email: hwangseonug12@gmail.com
+
+---
+
+**Made with ❤️ by a 13-year-old developer**
