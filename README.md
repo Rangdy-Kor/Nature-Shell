@@ -34,10 +34,12 @@ $count < 5 -while {
 
 ### Try It Now
 ```bash
-python main.py
+python code/main.py
 >>> var:str crt $name -in "World"
 >>> tmp echo "Hello, $name"
 Hello, World
+>>> $age > 18 -if { tmp echo "Adult" }
+Adult
 ```
 
 ## 💡 Why Nature Shell?
@@ -89,9 +91,9 @@ This is my first major project. I'm learning as I go, and I'd love your feedback
 - [x] System commands
 - [x] Error handling
 - [x] REPL interface
+- [x] Conditionals (-if, -else)
 
 ### 🔨 In Progress
-- [x] Conditionals (-if, -else)
 - [ ] Loops (-foreach, -while)
 - [ ] Pipelines (|)
 - [ ] Functions (fn def)
