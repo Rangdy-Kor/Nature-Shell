@@ -91,7 +91,7 @@ This is my first major project. I'm learning as I go, and I'd love your feedback
 - [x] REPL interface
 
 ### 🔨 In Progress
-- [ ] Conditionals (-if, -else)
+- [x] Conditionals (-if, -else)
 - [ ] Loops (-foreach, -while)
 - [ ] Pipelines (|)
 - [ ] Functions (fn def)
